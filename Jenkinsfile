@@ -1,40 +1,16 @@
-pipeline{
-  agent {
-      label 'slave1'
-  }
-  stages{
-    stage('version-control'){
-      steps{
-       sh 'free -g'
-      }
-    }
-    stage('parallel-job'){
-      parallel{
-        stage('sub-job1'){
-          steps{
-            echo 'action1'
+pipeline {
+   agent any
+   stages {
+       stage('Build Code') {
+           steps {
+              echo "Building Artifact"
+              echo "testing"
+           }
+       }
+      stage('Deploy Code') {
+          steps {
+               echo "Deploying Code"
           }
-        }
-        stage('sub-job2'){
-          steps{
-            echo 'action2'
-          }
-        }
-        stage('sub-job3'){
-            steps{
-                echo 'action3'
-            }
-        }
       }
-    }
-    stage('codebuild'){
-      agent {
-          label 'slave2'
-      }
-      steps{
-        sh 'cat /etc/passwd'
-      }
-    }
-  }
+   }
 }
-
